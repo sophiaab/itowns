@@ -211,6 +211,7 @@ export default {
                    new THREE.Vector3(cloud[idx].bbox.xmax, cloud[idx].bbox.ymax, cloud[idx].bbox.zmax));
             }
 
+            layer.supportsProgressiveDisplay = layer.metadata.customBinFormat;
 
             return parseOctree(
                     layer,

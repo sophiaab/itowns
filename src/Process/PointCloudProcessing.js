@@ -78,6 +78,7 @@ function markForDeletion(elt) {
 
     if (!elt.notVisibleSince) {
         elt.notVisibleSince = Date.now();
+        // Set .sse to an invalid value
         elt.sse = -1;
     }
     for (const child of elt.children) {
@@ -92,6 +93,8 @@ export default {
             return [];
         }
 
+        // See https://cesiumjs.org/hosted-apps/massiveworlds/downloads/Ring/WorldScaleTerrainRendering.pptx
+        // slide 17
         context.camera.preSSE =
             context.camera.height /
                 (2 * Math.tan(THREE.Math.degToRad(context.camera.camera3D.fov) * 0.5));
@@ -237,7 +240,7 @@ export default {
 
         if (layer.displayedCount > layer.pointBudget) {
             // 2 different point count limit implementation, depending on the pointcloud source
-            if (layer.metadata.customBinFormat) {
+            if (layer.supportsProgressiveDisplay) {
                 // In this format, points are evenly distributed within a node,
                 // so we can draw a percentage of each node and still get a correct
                 // representation
